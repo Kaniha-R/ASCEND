@@ -6,50 +6,72 @@
 :root[data-theme=dark]{--bg:#0d0e0d;--cd:#191a18;--ink:#ecebe4;--mut:#9a9c92;--ln:#2c2e2a;--ol:#9aa571;--ol2:#262a1d;--bad:#d08a76;color-scheme:dark}
 *{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.5 Archivo,system-ui,sans-serif;background-color:var(--bg);display:flex;min-height:100vh}
 
-/* FIXED SIDEBAR & RESPONSIVE MAIN CONTENT LAYOUT */
-nav{position:fixed;top:0;bottom:0;left:0;width:160px;background:var(--cd);border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:20px 10px;gap:6px;z-index:5;overflow-y:auto}
-nav button{border:1px solid transparent;font-size:13px;padding:10px 8px;text-align:left;border-radius:8px;width:100%}
+/* TOGGLE BUTTON */
+.nav-toggle-btn{position:fixed;top:12px;left:12px;z-index:20;background:var(--cd);border:1px solid var(--ln);border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
 
-main{flex:1;margin-left:160px;width:calc(100vw - 160px);max-width:1400px;padding:24px 32px 60px;box-sizing:border-box}
+/* FIXED SIDEBAR & RESPONSIVE MAIN CONTENT LAYOUT */
+nav{position:fixed;top:0;bottom:0;left:0;width:160px;background:var(--cd);border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:60px 10px 20px;gap:6px;z-index:5;overflow-y:auto;transition:transform .3s ease}
+nav.closed{transform:translateX(-100%)}
+nav button{border:1px solid transparent;font-size:13px;padding:10px 8px;text-align:left;border-radius:8px;width:100%;display:flex;align-items:center;gap:8px}
+nav .ic{font-size:16px;line-height:1}
+
+main{flex:1;min-width:0;margin-left:160px;max-width:1400px;padding:24px 32px 60px;transition:margin-left .3s ease}
+main.full{margin-left:0}
 
 @media(max-width:768px){
-  nav{width:120px;padding:16px 6px}
-  nav button{padding:8px 6px}
-  main{margin-left:120px;width:calc(100vw - 120px);padding:16px 16px 40px}
+  nav{width:160px;padding-top:60px}
+  main{margin-left:0;padding:56px 12px 40px}
+  main:not(.full){margin-left:160px}
+  h1{font-size:26px}
+  .big{font-size:28px}
+  .c{padding:14px}
 }
 
 h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}h1{font-size:30px;line-height:1.15}h2{font-size:22px;margin:4px 0 14px}h3{font-size:13px;color:var(--mut);font-weight:500;margin-bottom:10px}
-.c{background:var(--cd);border:1px solid var(--ln);border-radius:12px;padding:16px;margin-bottom:12px}.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g>.c{margin:0}
+.c{background:var(--cd);border:1px solid var(--ln);border-radius:12px;padding:16px;margin-bottom:12px;min-width:0}.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}.g>.c{margin:0}
 small,.m{color:var(--mut);font-size:13px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.sp{justify-content:space-between}
 button{font:inherit;cursor:pointer;border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:8px;padding:7px 12px}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ol);outline-offset:2px}
 .pri{background:var(--ol);border-color:var(--ol);color:#fff}.gh{color:var(--mut)}.bad{color:var(--bad);border-color:var(--bad)}.sm{padding:3px 9px;font-size:13px}
-.it{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln)}.it:last-child{border:0}.it span{flex:1}.it.dn span{text-decoration:line-through;color:var(--mut)}
+.it{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 0;border-bottom:1px solid var(--ln)}.it:last-child{border:0}.it span{flex:1 1 120px;min-width:0;overflow-wrap:anywhere}.it.dn span{text-decoration:line-through;color:var(--mut)}
 .ck{width:22px;height:22px;padding:0;border-radius:6px;font-size:13px;flex:none;line-height:1}.dn .ck{background:var(--ol);color:#fff;border-color:var(--ol)}
-.big{font-size:34px;font-weight:600;line-height:1}.ring{position:relative;width:96px;height:96px}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:600}
+.big{font-size:34px;font-weight:600;line-height:1}.ring{position:relative;width:96px;height:96px;flex:none}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:600}
 .bars{display:flex;gap:6px;align-items:flex-end;height:90px}.bars div{flex:1;text-align:center;font-size:11px;color:var(--mut)}.bars i{display:block;background:var(--ol);border-radius:4px 4px 0 0;min-height:2px;margin-bottom:4px;transition:height .5s}
-.seg{display:flex;gap:4px;margin-bottom:14px;overflow:auto}.seg button.on,nav button.on{background:var(--ol2);color:var(--ol);border-color:var(--ol)}
+.seg{display:flex;gap:4px;margin-bottom:14px;overflow:auto}.seg button{flex:none;white-space:nowrap}.seg button.on,nav button.on{background:var(--ol2);color:var(--ol);border-color:var(--ol)}
 .quote{border-left:3px solid var(--ol);padding-left:12px;font-size:17px}.tag{font-size:12px;border:1px solid var(--ln);border-radius:20px;padding:1px 8px;color:var(--mut)}.od{color:var(--bad)}
 input,select,textarea{font:inherit;width:100%;padding:8px;border-radius:8px;border:1px solid var(--ln);background:var(--bg);color:var(--ink)}label{display:block;margin-bottom:10px;font-size:13px;color:var(--mut)}
 #m{display:none;position:fixed;inset:0;background:#000a;z-index:9;align-items:center;justify-content:center;padding:16px}#m.on{display:flex}.mf{background:var(--cd);border:1px solid var(--ln);border-radius:12px;padding:18px;width:100%;max-width:420px;max-height:90%;overflow:auto}.mf h3{font-size:17px;color:var(--ink)}
 #t{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--ol);color:#fff;padding:8px 14px;border-radius:8px;z-index:10;display:none}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.cd{border:1px solid var(--ln);border-radius:6px;min-height:46px;font-size:12px;padding:3px}.cd.now{border-color:var(--ol);background:var(--ol2)}.cd b{display:block;color:var(--ol);font-weight:500}.cd u{display:block;width:6px;height:6px;border-radius:50%;background:var(--bad);margin:2px auto}
 .ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.ph img{width:100%;border-radius:8px;display:block}
-.sk{width:100%;overflow:auto}table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--ln);text-align:left;font-weight:400}a{color:var(--ol)}
+.sk{width:100%;overflow:auto}table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--ln);text-align:left;font-weight:400;overflow-wrap:anywhere}a{color:var(--ol)}
 .ai-box{border:1px dashed var(--ol);background:var(--ol2);border-radius:10px;padding:12px;margin-top:10px;white-space:pre-wrap;font-size:14px;line-height:1.6}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--ln);border-top-color:var(--ol);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
+details.rm{border-top:1px solid var(--ln);padding:8px 0}details.rm:first-of-type{border-top:0}
+details.rm summary{cursor:pointer;font-weight:500;list-style:none;display:flex;gap:8px;align-items:center}details.rm summary::-webkit-details-marker{display:none}
+details.rm summary>span{flex:1}details.rm summary::after{content:'+';color:var(--mut);font-size:18px;line-height:1}details.rm[open]>summary::after{content:'−'}
+details.rm .bd{margin-top:8px;font-size:14px}details.rm .bd p{margin:4px 0}
+.wt{height:6px;background:var(--ln);border-radius:3px;overflow:hidden;margin:4px 0}.wt i{display:block;height:100%;background:var(--ol)}
+.fm{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;overflow-wrap:anywhere}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body>
+<button class="nav-toggle-btn" onclick="toggleNav()" aria-label="Toggle navigation">☰</button>
 <nav id="n"></nav><main id="v"></main><div id="m"></div><div id="t"></div>
-<script src="ai_study_ui.js"></script>
 <script src="ai_service.js"></script>
 <script>
 const K='ascend.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9),iso=d=>d.toLocaleDateString('en-CA'),td=()=>iso(new Date()),dd=n=>{const d=new Date();d.setDate(d.getDate()-n);return iso(d)},dow=d=>new Date(d+'T12:00').getDay(),DN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const sum=a=>a.reduce((x,y)=>x+y,0),pc=(a,b)=>b?Math.round(a/b*100):0;
-let S,ui={tab:'home',sub:{study:'plan',health:'nut',tasks:'day',news:'All'},fm:0,ip:'week'};
+let S,ui={tab:'home',sub:{study:'plan',health:'nut',tasks:'day',news:'All',hub:'facts'},fm:0,ip:'week',navOpen:true};
 const aiState={home:'',tasks:'',study:'',quiz:'',health:'',fitness:'',insights:'',quizTopic:''};
 const CATS=['Study','Personal','Fitness','Grooming','Other'],V={};
+
+function toggleNav(){
+  ui.navOpen = !ui.navOpen;
+  const nav = $('#n'), main = $('#v');
+  nav.classList.toggle('closed', !ui.navOpen);
+  main.classList.toggle('full', !ui.navOpen);
+}
 
 function seed(){const d=td(),y=dd(1),I=a=>a.map(x=>({id:uid(),...x}));
 const sy=[['Part 1','A. External Financial Reporting','Financial statements & GAAP basics'],['Part 1','A. External Financial Reporting','Revenue recognition'],['Part 1','B. Planning, Budgeting & Forecasting','Budget systems'],['Part 1','B. Planning, Budgeting & Forecasting','Forecasting techniques'],['Part 1','C. Performance Management','Responsibility centers'],['Part 1','D. Cost Management','Costing systems'],['Part 1','D. Cost Management','Variance analysis'],['Part 1','E. Internal Controls','Governance & risk'],['Part 1','F. Technology & Analytics','Data analytics'],['Part 2','A. Financial Statement Analysis','Ratio analysis'],['Part 2','B. Corporate Finance','Risk & return'],['Part 2','B. Corporate Finance','Cost of capital'],['Part 2','C. Decision Analysis','CVP analysis'],['Part 2','D. Risk Management','Enterprise risk'],['Part 2','E. Investment Decisions','Capital budgeting'],['Part 2','F. Professional Ethics','IMA ethics standards']];
@@ -291,15 +313,57 @@ return card('Mock exam scores',S.mocks.length?S.mocks.slice().sort((a,b)=>b.d.lo
 card('Needs attention',L.length?W.slice(0,5).map(w=>`<div class=it><span>${esc(w.s)}</span><small>${w.p}% covered · ${w.a==null?'no mocks':'mock avg '+w.a+'%'}</small></div>`).join(''):empty('Add syllabus items.'))};
 function em(id){const m=S.mocks.find(x=>x.id==id),L=subs();F(m?'Edit mock':'Record mock',[{k:'d',l:'Date',t:'date',v:m?.d||td()},L.length?{k:'sub',l:'Subject',t:'select',o:L,v:m?.sub}:{k:'sub',l:'Subject',v:m?.sub,r:1},{k:'sc',l:'Score (%)',t:'number',v:m?.sc,r:1}],o=>m?Object.assign(m,o):S.mocks.push({id:uid(),...o}),m&&(()=>S.mocks=S.mocks.filter(x=>x!=m)))}
 const NC=['CMA updates','Accounting & finance','US economy & markets','Business','Standards & regulation','Education'];
-const SRC=[['CMA updates','IMA: CMA certification','https://www.imanet.org/cma-certification'],['Standards & regulation','FASB: news','https://www.fasb.org/news-and-meetings'],['US economy','Federal Reserve','https://www.federalreserve.gov/newsevents.htm']];
-V.s_news=()=>{const f=ui.sub.news,L=S.news.filter(n=>f=='All'||n.cat==f).sort((a,b)=>b.d.localeCompare(a.d));
+const SRC=[['CMA updates','IMA: CMA certification','https://www.imanet.org/cma-certification'],['CMA updates','IMA (home)','https://www.imanet.org'],['Management accounting','Strategic Finance magazine','https://www.sfmagazine.com'],['Standards & regulation','FASB: news','https://www.fasb.org/news-and-meetings'],['Standards & regulation','IFRS Foundation','https://www.ifrs.org'],['Company filings','SEC EDGAR','https://www.sec.gov/edgar'],['US economy','Federal Reserve','https://www.federalreserve.gov/newsevents.htm'],['US economy','BLS: economic data','https://www.bls.gov']];
+const hubArt=()=>{const f=ui.sub.news,L=S.news.filter(n=>f=='All'||n.cat==f).sort((a,b)=>b.d.localeCompare(a.d));
 return card('Sources',SRC.map(s=>`<div class=it><span><a href="${s[2]}" target=_blank rel=noopener>${s[1]}</a></span><small>${s[0]}</small></div>`).join(''))+
 card('Saved articles',`<div class=seg>${['All',...NC].map(c=>`<button class="${f==c?'on':''}" onclick="ui.sub.news='${c}';render()">${c}</button>`).join('')}</div>`+(L.length?L.map(n=>`<div class=it><span><a href="${esc(n.url)}" target=_blank rel=noopener>${esc(n.t)}</a><br><small>${esc(n.src)} · ${n.d}</small></span><button class="sm gh" onclick="nr('${n.id}')">${n.read?'Unread':'Mark read'}</button></div>`).join(''):empty('Nothing saved.')),'<button class="sm pri" onclick="en()">Save article</button>')};
 const nr=id=>{const n=S.news.find(x=>x.id==id);n.read=!n.read;save();render()};
+/* CMA US KNOWLEDGE HUB */
+const CSO={'Part 1':[['A','External Financial Reporting Decisions',15],['B','Planning, Budgeting & Forecasting',20],['C','Performance Management',20],['D','Cost Management',15],['E','Internal Controls',15],['F','Technology & Analytics',15]],
+'Part 2':[['A','Financial Statement Analysis',20],['B','Corporate Finance',20],['C','Decision Analysis',25],['D','Risk Management',10],['E','Investment Decisions',10],['F','Professional Ethics',15]]};
+const cov=(p,l)=>{const a=S.syl.filter(x=>x.part==p&&String(x.sub).trim().startsWith(l+'.'));return a.length?pc(a.filter(x=>x.done).length,a.length):null};
+const wcard=p=>card(p+' content weights',CSO[p].map(([l,n,w])=>{const c=cov(p,l);return`<div style="margin-bottom:12px"><div class="row sp"><span>${l}. ${n}</span><b>${w}%</b></div><div class=wt><i style="width:${w*4}%"></i></div><small>${c==null?'Not tracked in your syllabus':'Your coverage: '+c+'%'} · about ${w} of 100 MCQs</small></div>`}).join(''));
+const fr=(a,b)=>`<div class=it><span><b>${a}</b><br><small>${b}</small></span></div>`;
+const hubFacts=()=>card('CMA (US) exam at a glance',[
+fr('Format (each part)','100 multiple-choice questions in 3 hours, plus a written section in 1 hour. 4 hours in total.'),
+fr('Scoring','Scaled 0 to 500. You need 360 to pass. 360 is not the same as 72% of questions correct.'),
+fr('Weighting','Multiple-choice is about 75% of the score and the written section about 25%.'),
+fr('MCQ gateway','Training providers report you need about 50% on the MCQs to unlock the written section. Do not rush the MCQs.'),
+fr('Written section','Essays were replaced by case-based questions (CBQs) from the September to October 2026 window, per training providers. Topics and weights did not change.'),
+fr('Testing windows','January to February, May to June, September to October. The next window is January to February 2027.'),
+fr('Order and time limit','Parts can be taken in either order. You typically have 3 years from passing your first part to pass the second.'),
+fr('Other requirements','A bachelor degree and about 2 years of relevant experience, plus IMA membership and entrance fee. Check IMA for the exact timing and current fees.')
+].join(''))+wcard('Part 1')+wcard('Part 2')+
+card('Exam-day plan',[
+fr('MCQ pacing','100 questions in 180 minutes is about 1.8 minutes each. Aim to finish a first pass by about 150 minutes and keep 30 minutes for flagged questions.'),
+fr('Written / CBQ pacing','Two questions in 60 minutes, so about 30 minutes each. Read the requirement first, answer in short labelled points, and show every calculation line.'),
+fr('Practice benchmark','Many candidates aim for 75%+ on mixed MCQ sets before sitting. This is a guideline, not an IMA rule.'),
+fr('Study loop','Learn a topic, do 20 to 30 MCQs on it, log the result in the MCQs tab, review every wrong answer, then do mixed sets weekly.')
+].join(''))+
+card('IMA Statement of Ethical Professional Practice',[
+fr('Principles','Honesty, Fairness, Objectivity, Responsibility'),
+fr('Standards','Competence, Confidentiality, Integrity, Credibility'),
+fr('Resolving an ethical conflict','Follow your organization policy, discuss with your immediate supervisor (unless involved), escalate to the next level, clarify with an objective advisor, and consider consulting an attorney about legal obligations.')
+].join(''))+
+`<p class=m>Compiled from IMA-aligned training providers (November 2026). Confirm dates, fees and rules on <a href="https://www.imanet.org/cma-certification" target=_blank rel=noopener>the IMA website</a> before you register.</p>`;
+
+const FM=[['Part 1',[
+['Cost-volume-profit',[['Contribution margin','Sales − Variable costs'],['CM ratio','Contribution margin ÷ Sales'],['Break-even (units)','Fixed costs ÷ CM per unit'],['Units for target profit','(Fixed costs + Target profit) ÷ CM per unit'],['Margin of safety','(Sales − Break-even sales) ÷ Sales'],['Degree of operating leverage','Contribution margin ÷ Operating income']]],
+['Standard costing and variances',[['Materials price variance','(Actual price − Standard price) × Actual quantity purchased'],['Materials efficiency variance','(Actual qty used − Standard qty allowed) × Standard price'],['Labor rate variance','(Actual rate − Standard rate) × Actual hours'],['Labor efficiency variance','(Actual hours − Standard hours allowed) × Standard rate'],['Predetermined overhead rate','Budgeted overhead ÷ Budgeted allocation base'],['Fixed overhead volume variance','Budgeted fixed overhead − Applied fixed overhead'],['Sign rule','Actual cost higher than standard = unfavorable']]],
+['Performance measurement',[['ROI','Operating income ÷ Average operating assets'],['Residual income','Operating income − (Required rate × Operating assets)'],['EVA','NOPAT − (WACC × Capital invested)'],['DuPont (ROI)','Profit margin × Asset turnover']]],
+['Budgeting, inventory and working capital',[['Production budget','Sales + Desired ending FG − Beginning FG'],['DM purchases','Production needs + Desired ending DM − Beginning DM'],['EOQ','√(2 × Annual demand × Order cost ÷ Carrying cost per unit)'],['Reorder point','Daily usage × Lead time + Safety stock'],['Cash conversion cycle','Days inventory + Days sales outstanding − Days payables outstanding']]]]],
+['Part 2',[
+['Financial statement analysis',[['Current ratio','Current assets ÷ Current liabilities'],['Quick ratio','(Cash + Marketable securities + Receivables) ÷ Current liabilities'],['Inventory turnover','COGS ÷ Average inventory'],['Receivables turnover','Net credit sales ÷ Average receivables'],['Days sales outstanding','365 ÷ Receivables turnover'],['Debt-to-equity','Total debt ÷ Total equity'],['Times interest earned','EBIT ÷ Interest expense'],['ROE','Net income ÷ Average equity'],['DuPont (ROE)','Net margin × Asset turnover × Equity multiplier'],['EPS','(Net income − Preferred dividends) ÷ Weighted average common shares'],['P/E ratio','Price per share ÷ EPS'],['Dividend payout','Dividends ÷ Net income']]],
+['Corporate finance and risk',[['CAPM (cost of equity)','Rf + Beta × (Rm − Rf)'],['After-tax cost of debt','Kd × (1 − Tax rate)'],['WACC','(E/V × Ke) + (D/V × Kd × (1 − t))'],['Gordon growth model','P0 = D1 ÷ (Ke − g)'],['Effective annual rate','(1 + r ÷ m)^m − 1'],['Expected value','Sum of (Probability × Outcome)'],['Coefficient of variation','Standard deviation ÷ Mean']]],
+['Decision analysis',[['Relevant costs','Only future, differential costs matter. Ignore sunk costs.'],['Make or buy','Make if the relevant cost to make is below the buy price'],['Special order','Accept if price exceeds incremental cost and there is spare capacity'],['Transfer price floor','Variable cost + Opportunity cost per unit'],['Cost-plus price','Cost base × (1 + Markup %)'],['Target cost','Target price − Desired profit']]],
+['Investment decisions',[['NPV','Sum of CFt ÷ (1 + r)^t − Initial investment'],['Profitability index','PV of future cash flows ÷ Initial investment'],['Payback period','Initial investment ÷ Annual net cash inflow'],['IRR','The rate at which NPV = 0'],['Accounting rate of return','Average annual accounting income ÷ Average investment'],['Decision rule','Accept if NPV is positive, or IRR is above the hurdle rate']]]]]];
+const hubForm=()=>FM.map(([p,gs])=>card(p+' formula sheet',gs.map(([t,fs])=>`<details class=rm><summary><span>${t}</span></summary><div class=bd>${fs.map(([a,b])=>`<p><b>${a}</b><br><span class=fm>${b}</span></p>`).join('')}</div></details>`).join(''))).join('')+`<p class=m>Quick reference only. Learn the logic behind each formula and check details against your review course.</p>`;
+V.s_news=()=>seg('hub',[['facts','Exam facts'],['form','Formulas'],['art','Sources & articles']])+({facts:hubFacts,form:hubForm,art:hubArt}[ui.sub.hub||'facts'])();
+
 function en(id){const n=S.news.find(x=>x.id==id);F(n?'Edit article':'Save article',[{k:'t',l:'Title',v:n?.t,r:1},{k:'src',l:'Publisher',v:n?.src,r:1},{k:'d',l:'Date',t:'date',v:n?.d,r:1},{k:'url',l:'URL',t:'url',v:n?.url,r:1},{k:'cat',l:'Category',t:'select',o:NC,v:n?.cat}],o=>n?Object.assign(n,o):S.news.push({id:uid(),...o,read:0}),n&&(()=>S.news=S.news.filter(x=>x!=n)))}
 
 /* HEALTH VIEW */
-V.health=()=>`<h2>Health</h2>${seg('health',[['nut','Nutrition'],['groom','Grooming']])}${ui.sub.health=='nut'?V.h_nut():V.h_groom()}`;
+V.health=()=>`<h2>Health</h2>${seg('health',[['nut','Nutrition'],['groom','Grooming'],['rem','Home remedies']])}${({nut:V.h_nut,groom:V.h_groom,rem:V.h_rem}[ui.sub.health]||V.h_nut)()}`;
 V.h_nut=()=>{
   const d=td(),fl=S.foodList,days=M(14).ds,ok=days.filter(x=>(S.food[x]||[]).length>=Math.ceil(fl.length*.6)).length;
   return`${renderAICard('health-ai', 'Health & Wellness Assistant', 'health', 'runAIHealthAssistant()')}
@@ -336,13 +400,81 @@ const pr=n=>{const d=td();S.prot[d]=Math.max(0,(S.prot[d]||0)+n);save();render()
 const efl=()=>F('Nutrition checklist',[{k:'l',l:'One item per line',t:'area',v:S.foodList.join('\n')}],o=>S.foodList=o.l.split('\n').map(x=>x.trim()).filter(Boolean));
 V.h_groom=()=>{const g=S.groom,d=td(),l=g.glog[d]||{am:[],pm:[]},due=w=>w.last?Math.max(0,w.every-Math.floor((Date.now()-new Date(w.last+'T12:00'))/864e5)):0;
 const rt=(k,L)=>L.length?L.map((s,i)=>chk(l[k].includes(i),`gt('${k}',${i})`,s)).join(''):empty('No steps.');
-return`<p class=m>Skin: ${esc(g.skin)} · Hair: ${esc(g.hair)} <button class="sm gh" onclick="eg()">Customize</button></p>
+return`${!g.gender?card('Complete your grooming profile',`<p class=m>Tell us your gender, age group, skin type, hair type and concerns to get matching home remedies.</p><button class=pri onclick="eg()">Set up profile</button>`):''}<p class=m>Skin: ${esc(g.skin)} · Hair: ${esc(g.hair)} <button class="sm gh" onclick="eg()">Customize</button> <button class="sm" onclick="ui.sub.health='rem';render()">Home remedies</button></p>
 <div class=g>${card('Morning routine',rt('am',g.am))}${card('Night routine',rt('pm',g.pm))}</div><div style="height:12px"></div>
 ${card('Weekly care',g.wk.length?g.wk.map(w=>`<div class=it><span>${esc(w.t)}</span><small class="${w.last&&!due(w)?'od':''}">${w.last?(due(w)?'in '+due(w)+' d':'due now'):'never done'}</small><button class="sm" onclick="wd('${w.id}')">Done</button></div>`).join(''):empty('No care items.'))}`;
 };
 const gt=(k,i)=>{const d=td(),l=S.groom.glog[d]=S.groom.glog[d]||{am:[],pm:[]},j=l[k].indexOf(i);j<0?l[k].push(i):l[k].splice(j,1);save();render()};
 const wd=id=>{S.groom.wk.find(w=>w.id==id).last=td();save();render()};
-function eg(){const g=S.groom;F('Customize grooming',[{k:'skin',l:'Skin type',t:'select',o:['Oily','Dry','Combination','Normal','Sensitive'],v:g.skin},{k:'hair',l:'Hair type',t:'select',o:['Straight','Wavy','Curly','Coily','Thinning'],v:g.hair},{k:'am',l:'Morning steps',t:'area',v:g.am.join('\n')},{k:'pm',l:'Night steps',t:'area',v:g.pm.join('\n')}],o=>{g.skin=o.skin;g.hair=o.hair;g.am=o.am.split('\n').map(x=>x.trim()).filter(Boolean);g.pm=o.pm.split('\n').map(x=>x.trim()).filter(Boolean);g.glog={}})}
+/* GROOMING PROFILE & HOME REMEDIES */
+const GEN=['Male','Female','Non-binary / other','Prefer not to say'],AGE=['Under 18','18–30','31–45','46+'],
+SKC=['None','Acne / breakouts','Dark spots / pigmentation','Dullness / tan','Dryness / flaking','Oiliness / shine','Dark circles / puffiness','Redness / sensitivity'],
+HRC=['None','Dandruff','Hair fall','Dry / frizzy hair','Oily scalp','Thinning / slow growth'];
+function eg(){const g=S.groom;F('Grooming profile',[
+{k:'gender',l:'Gender (used to show beard and shaving care)',t:'select',o:GEN,v:g.gender||'Prefer not to say'},
+{k:'age',l:'Age group',t:'select',o:AGE,v:g.age||'18–30'},
+{k:'skin',l:'Skin type',t:'select',o:['Oily','Dry','Combination','Normal','Sensitive'],v:g.skin},
+{k:'sc',l:'Main skin concern',t:'select',o:SKC,v:g.sc||'None'},
+{k:'hair',l:'Hair type',t:'select',o:['Straight','Wavy','Curly','Coily','Thinning'],v:g.hair},
+{k:'hc',l:'Main hair or scalp concern',t:'select',o:HRC,v:g.hc||'None'},
+{k:'beard',l:'Also show beard and shaving care (automatic for Male)',t:'select',o:['No','Yes'],v:g.beard||'No'},
+{k:'allergy',l:'Allergies or ingredients to avoid (e.g. honey, nuts, curd)',v:g.allergy||''},
+{k:'am',l:'Morning steps',t:'area',v:g.am.join('\n')},{k:'pm',l:'Night steps',t:'area',v:g.pm.join('\n')}],
+o=>{const am=o.am.split('\n').map(x=>x.trim()).filter(Boolean),pm=o.pm.split('\n').map(x=>x.trim()).filter(Boolean),ch=am.join('|')!=g.am.join('|')||pm.join('|')!=g.pm.join('|');
+Object.assign(g,{gender:o.gender,age:o.age,skin:o.skin,sc:o.sc,hair:o.hair,hc:o.hc,beard:o.beard,allergy:(o.allergy||'').trim(),am,pm});if(ch)g.glog={}})}
+
+const SKT={Oily:'Use a gel or foaming cleanser, an oil-free gel moisturizer and a light SPF 30+.',Dry:'Use a cream or milk cleanser, moisturize on damp skin, and avoid very hot water.',Combination:'Use a gentle gel cleanser and a light moisturizer, with a richer one on dry areas.',Normal:'Keep it simple: mild cleanser, light moisturizer, SPF every morning.',Sensitive:'Choose fragrance-free products, add one new thing at a time and patch test everything.'};
+const HRT={Straight:'Straight hair gets oily faster. Put oils on the lengths and wash every 1 to 2 days if needed.',Wavy:'Use light oils and conditioner on the lengths, and avoid heavy build-up.',Curly:'Curly hair is drier. Prioritise moisture masks, wash less often and detangle with conditioner.',Coily:'Coily hair is the driest and most fragile. Focus on deep moisture, little heat and gentle detangling.',Thinning:'Be gentle with thinning hair: avoid tight styles and harsh chemicals.'};
+const RM=[
+{k:'skin',t:"Aloe vera soothing gel",c:['Redness / sensitivity','Acne / breakouts','Oiliness / shine','Dryness / flaking'],g:1,i:"Pure aloe vera gel (clear inner gel of a fresh leaf, or fragrance-free store gel)",h:"Apply a thin layer on clean skin, leave 15 minutes or overnight, then rinse or moisturize.",f:"Daily",a:['aloe'],w:"Use only the clear inner gel. The yellow sap under the leaf skin can irritate."},
+{k:'skin',t:"Multani mitti (fuller's earth) mask",c:['Oiliness / shine','Acne / breakouts','Dullness / tan'],s:['Oily','Combination'],i:"1 tbsp multani mitti, enough rose water for a smooth paste",h:"Apply a thin layer on a clean face, avoiding the eyes. Leave 10 minutes, but do not let it crack dry. Rinse with lukewarm water and moisturize.",f:"1 to 2 times/week",a:['multani','fuller','rose'],n:1,w:"Can be drying. Skip it if your skin feels tight afterwards."},
+{k:'skin',t:"Green tea toner",c:['Oiliness / shine','Acne / breakouts'],s:['Oily','Combination','Normal'],i:"1 green tea bag, 1 cup hot water",h:"Steep for 5 minutes and cool completely. After cleansing, dab on with a cotton pad. Keep refrigerated and use within 2 to 3 days.",f:"Daily (night)",a:['green tea']},
+{k:'skin',t:"Honey and turmeric spot mask",c:['Acne / breakouts','Dullness / tan'],s:['Oily','Combination','Normal'],i:"1 tsp raw honey, a tiny pinch of turmeric",h:"Dab on pimples or the whole face for 10 minutes, then rinse well.",f:"1 to 2 times/week",a:['honey','turmeric'],w:"Turmeric can stain skin and towels, so use only a pinch."},
+{k:'skin',t:"Neem leaf rinse",c:['Acne / breakouts','Oiliness / shine'],s:['Oily','Combination','Normal'],i:"A handful of fresh neem leaves, 2 cups water",h:"Boil the leaves for 10 minutes, cool and strain. Splash on or dab with a cotton pad after cleansing.",f:"A few times/week",a:['neem']},
+{k:'skin',t:"Besan and curd pack",c:['Dullness / tan','Oiliness / shine'],s:['Oily','Combination','Normal'],i:"1 tbsp besan (gram flour), 1 tbsp plain curd, a pinch of turmeric (optional)",h:"Mix and apply for 15 minutes. Rinse with water while gently massaging to lift dead skin.",f:"1 to 2 times/week",a:['besan','gram','chickpea','curd','yogurt','dairy']},
+{k:'skin',t:"Papaya pulp mask",c:['Dullness / tan','Dark spots / pigmentation'],s:['Normal','Dry','Combination'],i:"3 to 4 cubes of ripe papaya",h:"Mash and apply for 10 minutes, then rinse. Papaya enzymes give a mild exfoliation.",f:"Once a week",a:['papaya','latex'],n:1,w:"Use ripe papaya only. Unripe papaya latex can irritate."},
+{k:'skin',t:"Tomato pulp",c:['Dullness / tan','Oiliness / shine'],s:['Oily','Normal'],i:"1 tbsp fresh tomato pulp",h:"Apply for 10 minutes and rinse. Do not scrub.",f:"Once a week",a:['tomato'],n:1,w:"Acidic, so it may sting. Rinse straight away if it burns."},
+{k:'skin',t:"Plain curd mask",c:['Dark spots / pigmentation','Dullness / tan','Dryness / flaking'],s:['Normal','Dry','Combination'],i:"2 tbsp plain, unsweetened curd",h:"Apply a thin layer for 10 minutes and rinse. The lactic acid gently lifts dull surface cells.",f:"Once a week",a:['curd','yogurt','dairy','milk'],w:"Home remedies have limited effect on dark spots. Daily sunscreen matters far more."},
+{k:'skin',t:"Oatmeal calming mask",c:['Dryness / flaking','Redness / sensitivity'],s:['Dry','Normal','Sensitive'],i:"2 tbsp finely ground oats, enough water (or plain yogurt) to make a paste",h:"Apply gently without rubbing for 10 minutes, then rinse with lukewarm water.",f:"1 to 2 times/week",a:['oat']},
+{k:'skin',t:"Honey hydrating mask",c:['Dryness / flaking','Dullness / tan'],g:1,s:['Dry','Normal','Combination'],i:"1 tbsp raw honey",h:"Spread a thin layer on damp skin, leave 10 minutes and rinse with lukewarm water.",f:"Once or twice a week",a:['honey']},
+{k:'skin',t:"Coconut oil for very dry skin",c:['Dryness / flaking'],s:['Dry'],i:"A few drops of virgin coconut oil",h:"Warm between your palms and press onto damp skin at night.",f:"Night, as needed",a:['coconut'],w:"Can clog pores. Not for acne-prone skin."},
+{k:'skin',t:"Rose water and aloe mist",c:['Redness / sensitivity'],g:1,s:['Sensitive','Dry','Normal'],i:"Pure rose water with no added fragrance, a little aloe gel (optional)",h:"Chill it, then spritz or dab on after cleansing and follow with moisturizer.",f:"Daily",a:['rose','aloe']},
+{k:'skin',t:"Cold compress for tired eyes",c:['Dark circles / puffiness'],g:1,i:"2 cucumber slices or 2 used tea bags, chilled",h:"Lie down and rest them on closed eyes for 10 minutes.",f:"Daily if wanted",a:['cucumber','tea bag','green tea','black tea'],w:"Helps puffiness only. Sleep, hydration and sunscreen matter more for dark circles."},
+{k:'hair',t:"Neem water rinse",c:['Dandruff'],i:"A handful of fresh neem leaves, 2 cups water",h:"Boil for 10 minutes, cool and strain. After shampooing, pour over the scalp, leave 5 minutes and rinse.",f:"1 to 2 times/week",a:['neem']},
+{k:'hair',t:"Diluted apple cider vinegar rinse",c:['Dandruff','Oily scalp'],i:"1 tbsp apple cider vinegar mixed into 1 cup water",h:"After shampooing, pour over the scalp, wait 2 minutes and rinse thoroughly.",f:"Once a week",a:['vinegar'],w:"Never use undiluted. Skip it on broken or irritated scalp. Curly or coily hair: no more than 2 to 3 times a month."},
+{k:'hair',t:"Tea tree oil in shampoo",c:['Dandruff'],d:1,i:"Tea tree essential oil, 2 to 3 drops in one palmful of your regular shampoo",h:"Lather, leave for 2 to 3 minutes and rinse.",f:"2 to 3 times/week",a:['tea tree'],w:"Never apply undiluted. Stop if itching or redness increases. Dandruff that does not improve in 4 weeks needs a doctor."},
+{k:'hair',t:"Aloe vera scalp gel",c:['Oily scalp','Dandruff','Dry / frizzy hair'],g:1,i:"Fresh aloe vera gel",h:"Massage onto the scalp for a few minutes, leave 15 to 20 minutes and wash.",f:"1 to 2 times/week",a:['aloe']},
+{k:'hair',t:"Shikakai and reetha wash",c:['Oily scalp'],i:"Shikakai powder and reetha (soapnut) powder, water",h:"Make a watery paste (or soak overnight) and use it instead of shampoo. Keep it away from your eyes.",f:"Once or twice a week",a:['shikakai','reetha','soapnut'],w:"Reetha stings the eyes and can feel drying on dry hair."},
+{k:'hair',t:"Warm oil scalp massage",c:['Hair fall','Thinning / slow growth','Dry / frizzy hair'],g:1,i:"Coconut, amla or sesame oil, slightly warmed",h:"Massage the scalp with your fingertips for 5 to 10 minutes. Leave for 1 hour, then wash with a mild shampoo.",f:"1 to 2 times/week",a:['coconut','amla','sesame'],w:"Skip it if you have dandruff or an oily scalp. Oil can make flaking worse."},
+{k:'hair',t:"Fenugreek (methi) hair mask",c:['Hair fall','Dry / frizzy hair','Dandruff'],i:"2 tbsp fenugreek seeds soaked overnight and ground to a paste",h:"Apply to the scalp and lengths for 30 minutes, then rinse well.",f:"Once a week",a:['fenugreek','methi']},
+{k:'hair',t:"Banana or avocado conditioning mask",c:['Dry / frizzy hair'],i:"1 ripe banana or half an avocado, 1 tbsp aloe gel or 2 tbsp curd",h:"Blend until completely smooth, apply to mid-lengths and ends for 20 to 30 minutes, then rinse.",f:"Every 1 to 2 weeks",a:['banana','avocado']},
+{k:'hair',t:"Rosemary oil scalp massage",c:['Thinning / slow growth','Hair fall'],d:1,i:"3 to 4 drops rosemary essential oil in 1 tbsp carrier oil (jojoba, coconut or sesame)",h:"Massage into the scalp for 5 minutes, leave 30 to 60 minutes, then wash.",f:"2 to 3 times/week",a:['rosemary'],w:"Never apply undiluted. Avoid if pregnant or breastfeeding. Sudden or patchy hair loss needs a doctor (iron, thyroid, vitamin D and stress are common causes)."},
+{k:'beard',t:"Beard softening oil",i:"3 to 4 drops of jojoba, almond or coconut oil",h:"After a warm shower, warm the oil in your palms and work it through the beard down to the skin.",f:"Daily",a:['jojoba','almond','coconut']},
+{k:'beard',t:"Post-shave soother",i:"Aloe vera gel and chilled rose water",h:"Shave after a warm wash, with the grain. Afterwards, pat on the aloe and rose water mix. Skip alcohol-based aftershave.",f:"After each shave",a:['aloe','rose']},
+{k:'beard',t:"Ingrown hair care",i:"A warm damp cloth and a soft washcloth",h:"Hold the warm cloth on the area for 5 minutes, then gently buff with the soft washcloth. Never pick or dig at the hair.",f:"2 times/week",w:"Painful, pus-filled or recurring ingrowns need a doctor."}
+];
+function remList(){const g=S.groom,sk=g.skin||'Normal',sc=g.sc||'None',hc=g.hc||'None',al=(g.allergy||'').toLowerCase(),young=g.age=='Under 18',beard=g.gender=='Male'||g.beard=='Yes';let hidA=0;
+const pick=k=>RM.filter(r=>{if(r.k!=k)return false;
+if(k=='skin'){if(r.s&&!r.s.includes(sk))return false;if(sc=='None'?!r.g:!r.c.includes(sc))return false;if(r.n&&sk=='Sensitive')return false}
+if(k=='hair'&&(hc=='None'?!r.g:!r.c.includes(hc)))return false;
+if(r.d&&young)return false;
+if(r.a&&r.a.some(x=>al.includes(x))){hidA++;return false}
+return true});
+return{skin:pick('skin'),hair:pick('hair'),beard:beard?pick('beard'):[],hidA}}
+V.h_rem=()=>{const g=S.groom;
+if(!g.gender)return card('Set up your grooming profile',`<p class=m>Tell us your gender, age group, skin type, hair type and main concerns to get matching home remedies.</p><button class=pri onclick="eg()">Set up profile</button>`);
+const L=remList(),sc=g.sc||'None',hc=g.hc||'None',
+rc=r=>`<details class=rm><summary><span>${r.t}</span><small>${r.f}</small></summary><div class=bd><p><b>You need:</b> ${r.i}</p><p><b>How:</b> ${r.h}</p>${r.w?`<p class=od>⚠ ${r.w}</p>`:''}</div></details>`,
+sec=(t,a,msg)=>card(t,a.length?a.map(rc).join(''):empty(msg)),
+prof=[g.gender,g.age,g.skin+' skin',sc!='None'?sc:null,g.hair+' hair',hc!='None'?hc:null].filter(Boolean).map(esc).join(' · '),
+hid=L.hidA||g.age=='Under 18'||g.skin=='Sensitive';
+return card('Your profile',`<p class=m style="margin:0 0 6px">${prof}</p>${g.allergy?`<p class=m style="margin:0">Avoiding: ${esc(g.allergy)}</p>`:''}`,'<button class="sm" onclick="eg()">Edit</button>')
++card('Before you try anything',`<p class=m style="margin:0 0 8px"><b>Patch test first:</b> dab a small amount on your inner forearm and wait 24 hours. Stop if you get stinging, redness or itching.</p><p class=m style="margin:0 0 8px">Home remedies support good basics (cleanse, moisturize, sunscreen, sleep). They do not replace treatment. Do not put lemon juice, baking soda or toothpaste on your skin.</p><p class=m style="margin:0">See a doctor or dermatologist for painful or scarring acne, dandruff that does not improve in 4 weeks, sudden or patchy hair loss, or any rash.</p>`)
++card('Tips for your skin and hair',`<p class=m style="margin:0 0 8px"><b>${esc(g.skin)} skin:</b> ${SKT[g.skin]||''}</p><p class=m style="margin:0"><b>${esc(g.hair)} hair:</b> ${HRT[g.hair]||''}</p>`)
++sec('For your skin'+(sc!='None'?': '+esc(sc):' (general care)'),L.skin,'No gentle remedies match this combination. Stick to a mild cleanser, moisturizer and sunscreen, and see a dermatologist if the concern continues.')
++sec('For your hair'+(hc!='None'?': '+esc(hc):' (general care)'),L.hair,'No remedies match this combination. Keep your wash routine gentle and see a doctor if the concern continues.')
++(L.beard.length?sec('Beard and shaving care',L.beard,''):'')
++(hid?`<p class=m>${L.hidA?L.hidA+' remedies are hidden because of your allergy list. ':''}Some remedies are also hidden automatically for sensitive skin and under-18 profiles.</p>`:'')};
 
 /* FITNESS VIEW */
 const FC=['Push','Pull','Legs','Cardio','Full body','Other'];
@@ -431,9 +563,17 @@ async function runAIWeeklyInsights(){
 }
 
 /* SHELL & ROUTING */
-const TABS=[['home','Home'],['tasks','Tasks'],['study','Study'],['health','Health'],['fitness','Fitness'],['insights','Insights']];
-$('#n').innerHTML=TABS.map(([i,l])=>`<button data-t="${i}" onclick="go('${i}')">${l}</button>`).join('');
+const TABS=[['home','Home','🏠'],['tasks','Tasks','✅'],['study','Study','📚'],['health','Health','🌿'],['fitness','Fitness','💪'],['insights','Insights','📊']];
+$('#n').innerHTML=TABS.map(([i,l,ic])=>`<button data-t="${i}" onclick="go('${i}')"><span class=ic>${ic}</span><span>${l}</span></button>`).join('');
 const go=t=>{ui.tab=t;render();scrollTo(0,0)};
-function render(){document.documentElement.dataset.theme=S.theme||'dark';$('#v').innerHTML=V[ui.tab]();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==ui.tab))}
+function render(){
+  document.documentElement.dataset.theme=S.theme||'dark';
+  $('#v').innerHTML=V[ui.tab]();
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==ui.tab));
+  $('#n').classList.toggle('closed', !ui.navOpen);
+  $('#v').classList.toggle('full', !ui.navOpen);
+}
 load();render();if(!S.name&&S.sample)setTimeout(()=>F('Welcome to ASCEND',[{k:'name',l:'What should we call you?'}],o=>S.name=o.name),400);
-</script></body></html>
+</script>
+<script src="ai_study_ui.js"></script>
+</body></html>
