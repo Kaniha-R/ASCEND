@@ -137,14 +137,14 @@ function renderAICard(id, title, stateKey, onGenerateFn) {
     `✨ AI ${title}`,
     `<div>
       <div class="row sp" style="margin-bottom:8px">
-        <small class="m">Qwen 2.5 3B (Local Ollama)</small>
+        <small class="m">Llama 3.2 3B · Cloudflare Workers AI</small>
         <div class="row">
           <button class="sm pri" onclick="${onGenerateFn}">${hasContent?'Regenerate':'Generate'}</button>
           ${hasContent ? `<button class="sm gh" onclick="copyText(aiState['${stateKey}'])">Copy</button>` : ''}
         </div>
       </div>
       <div id="${id}-out" class="${hasContent?'ai-box':'m'}">
-        ${content || 'Click generate to analyze your data with local AI.'}
+        ${content || 'Tap Generate to analyze your data with Cloudflare AI.'}
       </div>
     </div>`
   );
@@ -168,7 +168,7 @@ V.home=()=>{
   ${card('Water',`<div class=row><button onclick="wa(-1)">−</button><span class=big>${S.water[d]||0}</span><button onclick="wa(1)">+</button><small>of ${S.wgoal} glasses</small></div>`)}
   ${card('Nutrition checklist',S.foodList.map(f=>chk((S.food[d]||[]).includes(f),`tf(${JSON.stringify(f).replace(/"/g,'&quot;')})`,f)).join(''))}</div>
   ${card('Weekly progress',bars(M(7).ds.map(x=>({l:DN[dow(x)][0],v:score(x),t:score(x)+'%'}))))}
-  ${card('Settings & Privacy',`<div class=row><button onclick="settings()">Profile & goals</button><button onclick="notif()">Enable notifications</button><button onclick="S.theme=S.theme=='dark'?'light':'dark';save();render()">Theme</button><button onclick="clearAIHistory()">Clear AI History</button>${S.sample?'<button class=bad onclick="clearSample()">Clear sample data</button>':''}</div><p class=m>Data is stored locally in this browser. Local AI queries run entirely on your machine.</p>`)}`;
+  ${card('Settings & Privacy',`<div class=row><button onclick="settings()">Profile & goals</button><button onclick="notif()">Enable notifications</button><button onclick="S.theme=S.theme=='dark'?'light':'dark';save();render()">Theme</button><button onclick="clearAIHistory()">Clear AI History</button>${S.sample?'<button class=bad onclick="clearSample()">Clear sample data</button>':''}</div><p class=m>Data is stored locally in this browser. AI requests send the relevant summary of your data to Cloudflare Workers AI.</p>`)}`;
 };
 
 async function runAIDailyPlan(){
@@ -266,7 +266,7 @@ function renderAIQuizCard(){
         <button class="sm pri" style="margin-top:18px" onclick="runAIQuizGenerator()">Generate 3 MCQs</button>
       </div>
       <div class="${hasContent?'ai-box':'m'}">
-        ${content || 'Select a topic and generate local AI practice questions.'}
+        ${content || 'Select a topic and generate AI practice questions.'}
       </div>
     </div>`
   );
