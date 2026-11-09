@@ -62,15 +62,21 @@ details.rm .bd{margin-top:8px;font-size:14px}details.rm .bd p{margin:4px 0}
 const K='ascend.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9),iso=d=>d.toLocaleDateString('en-CA'),td=()=>iso(new Date()),dd=n=>{const d=new Date();d.setDate(d.getDate()-n);return iso(d)},dow=d=>new Date(d+'T12:00').getDay(),DN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const sum=a=>a.reduce((x,y)=>x+y,0),pc=(a,b)=>b?Math.round(a/b*100):0;
-let S,ui={tab:'home',sub:{study:'plan',health:'nut',tasks:'day',news:'All',hub:'facts'},fm:0,ip:'week',navOpen:true};
+let S,ui={tab:'home',sub:{study:'plan',health:'nut',tasks:'day',news:'All',hub:'facts'},fm:0,ip:'week',navOpen:false};
 const aiState={home:'',tasks:'',study:'',quiz:'',health:'',fitness:'',insights:'',quizTopic:''};
 const CATS=['Study','Personal','Fitness','Grooming','Other'],V={};
 
 function toggleNav(){
   ui.navOpen = !ui.navOpen;
+  renderNavState();
+}
+
+function renderNavState(){
   const nav = $('#n'), main = $('#v');
-  nav.classList.toggle('closed', !ui.navOpen);
-  main.classList.toggle('full', !ui.navOpen);
+  if(nav && main){
+    nav.classList.toggle('closed', !ui.navOpen);
+    main.classList.toggle('full', !ui.navOpen);
+  }
 }
 
 function seed(){const d=td(),y=dd(1),I=a=>a.map(x=>({id:uid(),...x}));
@@ -565,14 +571,21 @@ async function runAIWeeklyInsights(){
 /* SHELL & ROUTING */
 const TABS=[['home','Home','🏠'],['tasks','Tasks','✅'],['study','Study','📚'],['health','Health','🌿'],['fitness','Fitness','💪'],['insights','Insights','📊']];
 $('#n').innerHTML=TABS.map(([i,l,ic])=>`<button data-t="${i}" onclick="go('${i}')"><span class=ic>${ic}</span><span>${l}</span></button>`).join('');
-const go=t=>{ui.tab=t;render();scrollTo(0,0)};
+
+const go=t=>{
+  ui.tab=t;
+  ui.navOpen=false; /* Any nav item click panna nav close aagum */
+  render();
+  scrollTo(0,0);
+};
+
 function render(){
   document.documentElement.dataset.theme=S.theme||'dark';
   $('#v').innerHTML=V[ui.tab]();
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t==ui.tab));
-  $('#n').classList.toggle('closed', !ui.navOpen);
-  $('#v').classList.toggle('full', !ui.navOpen);
+  renderNavState();
 }
+
 load();render();if(!S.name&&S.sample)setTimeout(()=>F('Welcome to ASCEND',[{k:'name',l:'What should we call you?'}],o=>S.name=o.name),400);
 </script>
 <script src="ai_study_ui.js"></script>
