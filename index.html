@@ -116,8 +116,7 @@ return{ds,sc:ds.map(score),avg:Math.round(sum(ds.map(score))/n),sh,st:S.sgoal*n,
 
 /* Reminders & Notifications */
 const remDue=d=>S.rem.filter(r=>r.days=='daily'||r.days.split(',').includes(String(dow(d)))).sort((a,b)=>a.time.localeCompare(b.time));
-setInterval(()=>{const n=new Date(),hm=pad(n.getHours())+':'+pad(n.getMinutes()),d=td(),L=[...remDue(d).filter(r=>r.time==hm).map(r=>r.t),...S.tasks.filter(t=>!t.done&&t.due==d&&t.rem==hm).map(t=>'Task: '+t.t)];
-L.forEach(t=>{const k='f'+d+hm+t;if(sessionStorage[k])return;sessionStorage[k]=1;toast('Reminder: '+t);if(window.Notification&&Notification.permission=='granted')new Notification('ASCEND',{body:t})})},20000);
+/* Reminder alerts are now handled by ascend_chat.js */
 
 /* AI Card Renderer & Helpers */
 function copyText(str){
@@ -589,4 +588,5 @@ function render(){
 load();render();if(!S.name&&S.sample)setTimeout(()=>F('Welcome to ASCEND',[{k:'name',l:'What should we call you?'}],o=>S.name=o.name),400);
 </script>
 <script src="ai_study_ui.js"></script>
+<script src="ascend_chat.js"></script>
 </body></html>
